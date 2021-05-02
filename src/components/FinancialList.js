@@ -43,7 +43,7 @@ export default function FinancialList(props) {
             </Box>
             <Grid container direction="row" justify="space-between" alignItems="flex-start">
                 <Box width={0.475}>
-                    <FinancialHeader header="52 Week" />
+                    <FinancialHeader header="52 Week Stats" />
                     <Financial label="High" value={metric["52WeekHigh"]} round={3} />
                     <Financial label="High Date" value={metric["52WeekHighDate"]} />
                     <Financial label="Low" value={metric["52WeekLow"]} round={3} />
