@@ -1,7 +1,9 @@
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import Tooltip from "@material-ui/core/Tooltip";
 import style from "../style";
+import { Fragment } from "react";
 
 export default function Header(props) {
 
@@ -36,12 +38,29 @@ export default function Header(props) {
                     <Button href="/" variant="contained" size="large" style={publicLinkStyle}>
                         Explore
                     </Button>
-                    <Button href="/watchlist" disabled={!props.loggedIn} variant="contained" size="large" style={privateLinkStyle}>
-                        Watchlist
-                    </Button>
-                    <Button href="/portfolio" disabled={!props.loggedIn} variant="contained" size="large" style={privateLinkStyle}>
-                        Portfolio
-                    </Button>
+                    {props.loggedIn ? 
+                        <Fragment>
+                            <Button href="/watchlist" variant="contained" size="large" style={privateLinkStyle}>
+                                Watchlist
+                            </Button>
+                            <Button href="/portfolio" variant="contained" size="large" style={privateLinkStyle}>
+                                Portfolio
+                            </Button>
+                        </Fragment>
+                    :
+                        <Fragment>
+                            <Tooltip title="Log in to access">
+                                <Button variant="contained" size="large" style={privateLinkStyle}>
+                                    Watchlist
+                                </Button>
+                            </Tooltip>
+                            <Tooltip title="Log in to access">
+                                <Button variant="contained" size="large" style={privateLinkStyle}>
+                                    Portfolio
+                                </Button>
+                            </Tooltip>
+                        </Fragment>
+                    }
                     <Button href="/login" variant="contained" size="large" style={loginStyle}>
                         {props.loggedIn ? "Log out" : "Log in"}
                     </Button>
