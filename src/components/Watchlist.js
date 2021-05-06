@@ -9,7 +9,7 @@ import { useState } from "react";
 import { CircularProgress } from "@material-ui/core";
 import { useEffect } from "react";
 
-export default function StockList(props) {
+export default function Watchlist(props) {
 
     const [state, setState] = useState({});
 

@@ -4,6 +4,7 @@ import FinnhubAPI from "../apis/finnhubAPI";
 import { useEffect, useState } from "react";
 import PercentChange from "./PercentChange";
 import WatchlistButton from "./WatchlistButton";
+import TradeButton from "./TradeButton";
 
 export default function StockInfo(props) {
 
@@ -27,7 +28,7 @@ export default function StockInfo(props) {
     return (
         <Box>
             <Box fontSize="42px" fontWeight={500} marginTop={1}>
-                {props.stock ? `${props.stock.instrument_name} (${props.stock.symbol})` : "Select Stock"}
+                {props.stock ? `${props.stock.instrument_name} (${props.stock.symbol})` : "No Stocks"}
             </Box>
             <Box>
                 <Grid container>
@@ -37,8 +38,15 @@ export default function StockInfo(props) {
                     <Box>
                         <PercentChange size="large" width={120} prev={(state.quote || {pc: null}).pc} current={(state.quote || {c: null}).c} />
                     </Box>
+                    {props.tradeButton ?
+                        <Box height={64} paddingTop={2} marginLeft={1}>
+                            <TradeButton stock={props.stock} />
+                        </Box>
+                    :
+                        null
+                    }
                     {props.watchlistButton ?
-                        <Box height={64} paddingTop={2} paddingLeft={2}>
+                        <Box height={64} paddingTop={2} marginLeft={2}>
                             <WatchlistButton stock={props.stock} />
                         </Box>
                     :

@@ -2,10 +2,9 @@ import Ticker from "../components/Ticker";
 import Box from "@material-ui/core/Box";
 import Header from "../components/Header";
 import Stock from "../components/Stock";
-import StockList from "../components/StockList";
+import Watchlist from "../components/Watchlist";
 import Grid from "@material-ui/core/Grid";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Loading from "../components/Loading";
 import BackendAPI from "../apis/backendAPI";
 import BuySellChart from "../components/BuySellChart";
@@ -84,7 +83,7 @@ export default function WatchlistPage(props) {
                                     <Box fontSize="36px" fontWeight={500} textAlign="center" marginBottom={2}>
                                         Your Stocks
                                     </Box>
-                                    <StockList stocks={state.stocks} onSelect={handleSelect} onRemove={handleRemove} />
+                                    <Watchlist stocks={state.stocks} onSelect={handleSelect} onRemove={handleRemove} />
                                 </Box>
                                 <Box fontSize="36px" fontWeight={500} textAlign="center" marginBottom={2}>
                                     Recommendations
@@ -94,7 +93,7 @@ export default function WatchlistPage(props) {
                                 </Grid>
                             </Box>
                             <Box p={2} width={696}>
-                                <Stock stock={state.selectedStock || state.stocks[0]} />
+                                <Stock tradeButton stock={state.selectedStock || state.stocks[0]} />
                             </Box>
                         </Grid>
                     </Box>

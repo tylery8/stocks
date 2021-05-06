@@ -6,8 +6,7 @@ import Box from "@material-ui/core/Box";
 import Loading from "./Loading";
 import style from "../style";
 
-const getResolutionAndCount = function(period) {
-
+const getMarketOpen = function() {
     const marketOpen = new Date();
     if (marketOpen.getDay() === 0) {
         marketOpen.setDate(marketOpen.getDate() - 2);
@@ -20,7 +19,12 @@ const getResolutionAndCount = function(period) {
     marketOpen.setSeconds(0);
     marketOpen.setMilliseconds(0);
 
-    let minutesIntoDay = (new Date().getTime() - marketOpen.getTime()) / 1000 / 60;
+    return marketOpen;
+}
+
+const getResolutionAndCount = function(period) {
+
+    let minutesIntoDay = (new Date().getTime() - getMarketOpen().getTime()) / 1000 / 60;
     if (minutesIntoDay < 0) {
         minutesIntoDay += 24*60;
     }
@@ -77,14 +81,7 @@ export default function HistoricalChartPlot(props) {
             return
         }
 
-        setState((state) => {
-            return {
-                ...state,
-                times: undefined,
-                prices: undefined
-                }
-            }
-        )
+        setState({})
 
         const {resolution, count} = getResolutionAndCount(props.period);
 
@@ -112,15 +109,31 @@ export default function HistoricalChartPlot(props) {
             }
         });
 
+        if (props.period === '1D') {
+            new FinnhubAPI().quote(props.symbol, (response, data, error) => {
+                if (mounted && !error) {
+                    setState(state => {
+                        return {...state, pc: data.pc}
+                    });
+                }
+            });
+        }
+
         return () => {mounted = false;}
     }, [props])
 
     return (
-        props.symbol && state.times && state.prices ?
-            <XYPlot height={400} width={600} margin={{left: 60, bottom: 60}} >
+        props.symbol && state.times && state.prices && (props.period !== '1D' || state.pc) ?
+            <XYPlot
+            height={400}
+            width={600}
+            margin={{left: 60, bottom: 60}}
+            xDomain={[0, props.period !== '1D' ? state.times.length : Math.round(state.times.length/Math.min((new Date().getTime() - getMarketOpen().getTime())/(420*60*1000), 1))]}
+            yDomain={[Math.min((state.pc || Infinity), ...state.prices), Math.max((state.pc || -Infinity), ...state.prices)]}
+            >
                 <XAxis tickFormat={i => formatDate(state.times[i], props.period)} tickLabelAngle={-45}/>
                 <YAxis />
-                <LineSeries curve={'curveMonotoneX'} color={state.prices[0] > state.prices[state.prices.length-1] ? style.mainRed : style.mainGreen} data={state.prices.map((price, i) => {return {x: i, y: price}})} />
+                <LineSeries curve={'curveMonotoneX'} color={(state.pc || state.prices[0]) > state.prices[state.prices.length-1] ? style.mainRed : style.mainGreen} data={state.prices.map((price, i) => {return {x: i, y: price}})} />
             </XYPlot>
         :
             <Box height={400} width={600} textAlign="center">

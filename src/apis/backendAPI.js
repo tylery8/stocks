@@ -41,4 +41,38 @@ BackendAPI.prototype.updateWatchlist = async function(watchlist, callback) {
     this.request('/watchlist', options, callback)
 }
 
+BackendAPI.prototype.readPortfolio = async function(callback) {
+    const options = {
+        method: 'GET',
+        headers: {'x-stocks-account': getAccountId()}
+    };
+    this.request('/portfolio', options, callback)
+}
+
+BackendAPI.prototype.deposit = async function(amount, callback) {
+    const options = {
+        method: 'POST',
+        headers: {'x-stocks-account': getAccountId()},
+        data: {amount}
+    };
+    this.request('/portfolio/deposit', options, callback)
+}
+
+BackendAPI.prototype.trade = async function(symbol, time, price, amount, buy, callback) {
+    const options = {
+        method: 'POST',
+        headers: {'x-stocks-account': getAccountId()},
+        data: {symbol, time, price, amount, buy}
+    };
+    this.request('/portfolio/trade', options, callback)
+}
+
+BackendAPI.prototype.deletePortfolio = async function(callback) {
+    const options = {
+        method: 'DELETE',
+        headers: {'x-stocks-account': getAccountId()}
+    };
+    this.request('/portfolio', options, callback)
+}
+
 export default BackendAPI;

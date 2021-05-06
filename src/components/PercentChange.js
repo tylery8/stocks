@@ -12,6 +12,11 @@ export default function PercentChange(props) {
     let textFontSize;
     let arrowWidth;
     switch (props.size) {
+        case "xl":
+            arrowFontSize = "80px";
+            textFontSize = "36px";
+            arrowWidth = 60;
+            break;
         case "large":
             arrowFontSize = "60px";
             textFontSize = "24px";
@@ -29,11 +34,11 @@ export default function PercentChange(props) {
             break;
     }
 
-    if (!props.prev || !props.current) {
+    if (props.prev === undefined || props.prev === null || props.current === undefined || props.current === null) {
         return null;
     }
 
-    const percentChange = ((props.current - props.prev)/props.prev * 100);
+    const percentChange = props.prev === 0 ? 0 : ((props.current - props.prev)/props.prev * 100);
 
     return (
         <Grid container direction="row" justify="center" alignItems="center">

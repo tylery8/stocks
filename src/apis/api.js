@@ -9,7 +9,7 @@ API.prototype.cache = {};
 API.prototype.request = async function(endpoint, options, callback, cache) {
     options.url = this.url + endpoint;
 
-    const cachedValue = this.checkCache(options);
+    const cachedValue = cache && callback ? this.checkCache(options) : null;
     if (cachedValue) {
         if (cachedValue.resolved) {
             callback(cachedValue.data, cachedValue.data.data, null);
@@ -27,10 +27,10 @@ API.prototype.request = async function(endpoint, options, callback, cache) {
         this.updateCache(options, promise, false, cache);
 
         promise.then((response) => {
-            callback(response, response.data, null);
+            if (callback) {callback(response, response.data, null)}
             this.updateCache(options, response, true, cache);
         }).catch((error) => {
-            callback(error.response || null, error.response ? error.response.data : null, error);
+            if (callback) {callback(error.response || null, error.response ? error.response.data : null, error)}
             this.clearCache(options);
         });
     }

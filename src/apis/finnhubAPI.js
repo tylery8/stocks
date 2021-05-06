@@ -16,12 +16,12 @@ FinnhubAPI.prototype.stockCandles = async function(symbol, resolution, count, ca
     this.request('/stock/candle', options, callback, 60000)
 }
 
-FinnhubAPI.prototype.quote = async function(symbol, callback) {
+FinnhubAPI.prototype.quote = async function(symbol, callback, cache=10000) {
     const options = {
         method: 'GET',
         params: {symbol, token: this.apiKey}
     };
-    this.request('/quote', options, callback, 10000)
+    this.request('/quote', options, callback, cache)
 }
 
 FinnhubAPI.prototype.financials = async function(symbol, callback) {

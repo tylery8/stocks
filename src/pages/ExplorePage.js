@@ -30,7 +30,7 @@ export default function ExplorePage(props) {
                     </Box>
                 </Box>
                 <Box p={2} width={696}>
-                    <Stock stock={state.stock} watchlistButton={!!props.account_id} />
+                    <Stock stock={state.stock} watchlistButton={!!props.account_id} tradeButton={!!props.account_id} />
                 </Box>
             </Grid>
         </Box>

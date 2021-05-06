@@ -6,7 +6,7 @@ import FinancialList from "./FinancialList";
 export default function Stock(props) {
     return (
         <Box>
-            <StockInfo stock={props.stock} watchlistButton={props.watchlistButton} />
+            <StockInfo {...props} />
             <HistoricalChart symbols={[props.stock ? props.stock.symbol : null]} />
             <FinancialList symbol={props.stock ? props.stock.symbol : null} />
         </Box>
