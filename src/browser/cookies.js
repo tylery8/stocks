@@ -34,6 +34,11 @@ export const setFinnhubApikey = (apikey, remember) => {
 };
 
 export const getFinnhubApikey = () => {
+	const finnhubApikey = Cookies.get(finnhubApikeyCookieName);
+	if (finnhubApikey) {
+		return finnhubApikey;
+	}
+	setFinnhubApikey();
 	return Cookies.get(finnhubApikeyCookieName);
 };
 
