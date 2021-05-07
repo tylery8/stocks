@@ -15,12 +15,4 @@ TwelveDataAPI.prototype.search = async function(symbol, callback) {
     this.request('/symbol_search', options, callback, -1)
 }
 
-TwelveDataAPI.prototype.timeSeries = async function(symbol, interval, outputsize, callback) {
-    const options = {
-        method: 'GET',
-        params: {symbol, interval, outputsize, apikey: this.apiKey}
-    };
-    this.request('/time_series', options, callback, 60000)
-}
-
 export default TwelveDataAPI;

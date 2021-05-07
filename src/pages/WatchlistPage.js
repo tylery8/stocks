@@ -71,11 +71,15 @@ export default function WatchlistPage(props) {
     return (
         <Box width={1176} margin="auto">
             <Header title="Watchlist" loggedIn={!!props.account_id} />
-            {state.stocks ? 
-                <Box>
+            <Box>
+                {state.stocks ?
                     <Box borderBottom="4px solid black" boxShadow={5}>
                         <Ticker symbols={state.stocks.map(stock => stock.symbol)} />
                     </Box>
+                :
+                    null
+                }
+                {state.stocks && state.stocks.length ? 
                     <Box>
                         <Grid container direction="row" justify="space-around">
                             <Box marginTop={10}>
@@ -97,10 +101,14 @@ export default function WatchlistPage(props) {
                             </Box>
                         </Grid>
                     </Box>
-                </Box>
-            :
-                state.stocks === null ? "An error has occured. Please refresh" : <Loading />
-            }
+                : state.stocks === null ? 
+                    "An error has occured. Please refresh"
+                : state.stocks === undefined ? 
+                    <Loading />
+                :
+                    null
+                }
+            </Box>
         </Box>
     )
 }
